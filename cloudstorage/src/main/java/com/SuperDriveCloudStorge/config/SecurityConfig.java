@@ -5,9 +5,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable();  // this will Disable the CSRF attack
-        http.authorizeRequests().antMatchers("login" , "signup").permitAll().anyRequest().authenticated();
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http
+                .authorizeRequests()
+                .antMatchers("/h2-console/**", "/signup", "/css/**", "/js/**")
+
+                .permitAll()
+                .anyRequest()
+                .authenticated();
     }
 }
