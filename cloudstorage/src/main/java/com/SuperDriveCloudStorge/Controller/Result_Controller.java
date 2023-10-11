@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/result")
-public class ResultController {
+public class Result_Controller {
 
 
     @GetMapping
