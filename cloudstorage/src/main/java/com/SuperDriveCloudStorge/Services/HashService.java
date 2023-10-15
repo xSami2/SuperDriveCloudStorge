@@ -16,12 +16,12 @@ public class HashService {
 
     public final Logger logger = LoggerFactory.getLogger(HashService.class);
 
-    public String getHashedValue(String data, String salt) {
+    public String getHashedValue(String password, String salt) {
         byte[] hashedValue = null;
 
         int iterCount = 12288;
         int derivedKeyLength = 256;
-        KeySpec spec = new PBEKeySpec(data.toCharArray(), salt.getBytes(), iterCount, derivedKeyLength * 8);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), iterCount, derivedKeyLength * 8);
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             hashedValue = factory.generateSecret(spec).getEncoded();
