@@ -13,19 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/signup")
 public class SignUp_Controller {
 
-    @Autowired
-    SignUp_Service signUpService;
+    private final SignUp_Service signUpService;
+
+
+    public SignUp_Controller(SignUp_Service signUpService) {
+        this.signUpService = signUpService;
+    }
 
     @GetMapping
-    public String signupView( @ModelAttribute("User_model") User_Model user) {
+    public String signupView( @ModelAttribute("User_model") User_Model userModel) {
         return "signup";
     }
 
 
     @PostMapping
-    public String CreateUser(@ModelAttribute("User_model") User_Model user){
-        signUpService.CreateUser(user);
-        return "signup";
+    public String createUser(@ModelAttribute("User_model") User_Model userModel){
+        signUpService.CreateUser(userModel);
+        return "login";
     }
 
 

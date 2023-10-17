@@ -4,16 +4,22 @@ import com.SuperDriveCloudStorge.Model.User_Model;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UsersMapper {
 
+    @Select("SELECT count(*) from USERS where username = #{username} and password = #{password}")
+    int checkUserCredentials(String username, String password);
+
+    @Select("SELECT salt from USERS where username = #{username}")
+    String getUserSalt(String username);
 
     @Insert(
             "INSERT INTO USERS (username, salt, password, firstname, lastname) " +
-                    "VALUES(#{username}, #{salt}, #{password}, #{firstName}, #{lastName})"
+                    "VALUES(#{username}, #{salt}, #{password}, #{firstname}, #{lastname})"
     )
     @Options(useGeneratedKeys = true, keyProperty = "userId")
-    int inertUser(User_Model user);
+    void insertUser(User_Model user);
 
 }
