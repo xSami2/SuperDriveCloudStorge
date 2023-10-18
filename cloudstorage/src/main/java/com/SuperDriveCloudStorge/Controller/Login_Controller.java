@@ -34,7 +34,7 @@ public class Login_Controller {
     public String userLogin(@ModelAttribute("User_model") User_Model userModel , Model model){
         isUserValid = loginService.userAuthentication(userModel);
         model.addAttribute("isUserValid" , isUserValid);
-        return isUserValid ? "redirect:home" : "login" ;
+        return isUserValid ? "home" : "login" ;
     }
 
 
