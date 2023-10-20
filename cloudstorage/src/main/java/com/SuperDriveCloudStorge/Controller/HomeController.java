@@ -1,5 +1,9 @@
 package com.SuperDriveCloudStorge.Controller;
 
+import com.SuperDriveCloudStorge.Services.FileService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,27 +16,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/home")
-public class Home_Controller {
+public class HomeController {
 
-
+     private final FileService fileService;
     @GetMapping
     public String signupView() {
         return "home";
     }
 
     @PostMapping()
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file) {
-        try {
-            // Process the file
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get("C:\\Users\\Saami\\IdeaProjects\\SuperDriveCloudStorge\\cloudstorage\\src\\main\\resources\\uploadedFiles\\" + file.getOriginalFilename());
-            Files.write(path, bytes);
-            // Save the file (omitted for brevity)
-            return "home";
-        } catch (Exception e) {
-            return "home";
-        }
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile file ) {
+        fileService.uploadFile(file);
+        return "home";
     }
 
 }

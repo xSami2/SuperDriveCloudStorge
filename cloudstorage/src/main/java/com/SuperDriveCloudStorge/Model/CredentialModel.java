@@ -3,7 +3,7 @@ package com.SuperDriveCloudStorge.Model;
 import lombok.Data;
 
 @Data
-public class Credential_Model {
+public class CredentialModel {
 
     private int credentialed_id;
 
