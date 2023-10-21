@@ -50,11 +50,11 @@ Super Drive Cloud Storage is a secure cloud storage application that enables use
 
 ## Installation
 
-```bash
+``bash
 git clone https://github.com/yourusername/SuperDuperDrive.git
 
 ## Running Tests
 
-```bash
+``bash
 mvn test
 
