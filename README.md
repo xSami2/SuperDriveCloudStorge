@@ -7,8 +7,7 @@ Super Drive Cloud Storage is a secure cloud storage application that enables use
 - [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Installation](#installation)
-- [Running Tests](#running-tests)
-- [Usage](#usage)
+
 
 
 ## Features
