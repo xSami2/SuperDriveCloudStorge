@@ -1,13 +1,22 @@
 package com.SuperDriveCloudStorge.Mapper;
 
 import com.SuperDriveCloudStorge.Model.FileModel;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 
 public interface FilesMapper {
+
+   @Select("SELECT * FROM FILES Where userId = #{userId}")
+    List<FileModel> getUserFileByUserId(Integer userId);
+
+   @Select("SELECT * FROM FILES Where fileId = #{fileId}")
+   FileModel getFileById(Integer fileId);
+
+   @Delete("DELETE  FROM FILES Where fileId = #{fileId}")
+   void deleteFileById(Integer fileId);
 
     @Insert(
             "INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) " +

@@ -3,6 +3,8 @@ package com.SuperDriveCloudStorge.Services;
 import com.SuperDriveCloudStorge.Mapper.UsersMapper;
 import com.SuperDriveCloudStorge.Model.UserModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -30,6 +32,13 @@ public class UserService  {
 
     public UserModel getUser(String username){
         return usersMapper.getUser(username);
+    }
+
+    public Integer getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        UserModel user = getUser(currentUsername);
+        return user.getUserId();
     }
 
 

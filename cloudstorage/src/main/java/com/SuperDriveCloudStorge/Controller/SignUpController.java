@@ -4,6 +4,7 @@ import com.SuperDriveCloudStorge.Model.UserModel;
 import com.SuperDriveCloudStorge.Services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +21,26 @@ public class SignUpController {
 
 
     @GetMapping
-    public String signupView( @ModelAttribute("User_model") UserModel userModel) {
+    public String signupView( @ModelAttribute("User_model") UserModel userModel, Model model) {
+        model.addAttribute("signupSuccess" , false);
+        model.addAttribute("signupError" , false);
         return "signup";
     }
 
 
     @PostMapping
-    public String createUser(@ModelAttribute("User_model") UserModel userModel){
-        userService.createUser(userModel);
-        return "login";
+    public String createUser(@ModelAttribute("User_model") UserModel userModel , Model model){
+        boolean isUsernameAvailable = userService.isUsernameAvailable(userModel.getUsername());
+        System.out.println(isUsernameAvailable);
+         if(isUsernameAvailable){
+             userService.createUser(userModel);
+             model.addAttribute("signupSuccess" , true);
+         }else{
+           model.addAttribute("signupError" , true);
+           model.addAttribute("signupErrorMassage" , "The username the you want to register is already taken");
+         }
+
+        return "signup";
     }
 
 

@@ -1,19 +1,17 @@
 package com.SuperDriveCloudStorge.Controller;
 
+import com.SuperDriveCloudStorge.Model.FileModel;
+import com.SuperDriveCloudStorge.Model.UserModel;
 import com.SuperDriveCloudStorge.Services.FileService;
+import com.SuperDriveCloudStorge.Services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,16 +19,26 @@ import java.nio.file.Paths;
 public class HomeController {
 
      private final FileService fileService;
+     private final UserService userService;
+
+
     @GetMapping
-    public String signupView() {
+    public String signupView(Model model) {
+        Integer currentUserId = userService.getUserId();
+        model.addAttribute("files" ,fileService.getUserFile(currentUserId));
         return "home";
     }
 
-    @PostMapping()
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file ) {
-        fileService.uploadFile(file);
-        return "home";
-    }
+
+
+
+
+
+
+
+
+
+
 
 }
 
