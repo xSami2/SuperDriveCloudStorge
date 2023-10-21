@@ -1,4 +1,4 @@
-# SuperDuperDrive Cloud Storage Overview
+# Super Drive Cloud Storage Overview
 
 SuperDuperDrive Cloud Storage is a secure cloud storage application that enables users to manage their files, notes, and credentials. Built on Java Spring Boot, Thymeleaf, and MyBatis, this application offers comprehensive features while ensuring robust security measures.
 
