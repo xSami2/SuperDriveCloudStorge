@@ -56,12 +56,3 @@ This application uses Selenium for testing its features. Execute the tests via y
 bash
 Copy code
 mvn test
-Usage
-Login page: http://localhost:8080/login
-Signup page: http://localhost:8080/signup
-Home page: http://localhost:8080/home
-Contributing
-If you find any bugs or have feature suggestions, please create an issue or pull request.
-
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
