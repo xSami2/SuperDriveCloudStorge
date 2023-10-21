@@ -44,9 +44,9 @@ Super Drive Cloud Storage is a secure cloud storage application that enables use
 - Spring Security
 - Thymeleaf
 - MyBatis
-- MySQL
+- H2 Database
 - Bootstrap
-- Selenium for testing
+- Selenium and JUnit for testing
 
 ## Installation
 
