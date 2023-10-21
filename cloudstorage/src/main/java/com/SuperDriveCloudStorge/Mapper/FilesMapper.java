@@ -15,6 +15,10 @@ public interface FilesMapper {
    @Select("SELECT * FROM FILES Where fileId = #{fileId}")
    FileModel getFileById(Integer fileId);
 
+    @Select("SELECT COUNT(*) FROM FILES WHERE filename = #{filename}")
+    int isDuplicateFileName(String filename);
+
+
    @Delete("DELETE  FROM FILES Where fileId = #{fileId}")
    void deleteFileById(Integer fileId);
 

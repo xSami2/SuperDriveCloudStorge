@@ -19,13 +19,18 @@ public class FileService {
 
 
 
-    public void uploadFile(@RequestParam("fileUpload") MultipartFile file  , Integer currentUserId) throws IOException {
-         boolean isFileEmpty = file.isEmpty();
-         if (!isFileEmpty){
+    public boolean isDuplicateFileName(String fileName){return filesMapper.isDuplicateFileName(fileName) == 0;}
+
+      public void uploadFile(@RequestParam("fileUpload") MultipartFile file  , Integer currentUserId) throws IOException {
+         boolean isFileNotEmpty  = !file.isEmpty();
+         boolean isDuplicateFileName  = isDuplicateFileName(String.valueOf(file.getOriginalFilename()));
+          System.out.println(isDuplicateFileName);
+          System.out.println(isFileNotEmpty);
+         if (isFileNotEmpty && isDuplicateFileName){
              FileModel newFile = new FileModel(null , file.getOriginalFilename() , file.getContentType() , file.getSize() , currentUserId , file.getBytes() );
              filesMapper.insert(newFile);
          }
-        System.out.println(isFileEmpty);
+
 
 
     }

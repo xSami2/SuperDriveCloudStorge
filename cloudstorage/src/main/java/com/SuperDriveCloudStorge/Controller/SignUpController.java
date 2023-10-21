@@ -31,7 +31,6 @@ public class SignUpController {
     @PostMapping
     public String createUser(@ModelAttribute("User_model") UserModel userModel , Model model){
         boolean isUsernameAvailable = userService.isUsernameAvailable(userModel.getUsername());
-        System.out.println(isUsernameAvailable);
          if(isUsernameAvailable){
              userService.createUser(userModel);
              model.addAttribute("signupSuccess" , true);
