@@ -25,16 +25,13 @@ public class FileController {
     private final UserService userService;
 
     @PostMapping()
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file , Model model ) throws IOException {
-        Integer currentUserId = userService.getUserId();
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile file) throws IOException {
         fileService.uploadFile(file , userService.getUserId());
-        model.addAttribute("files" ,fileService.getUserFile(currentUserId));
-        return "home";
+        return "redirect:/home";
     }
 
     @GetMapping("/delete/{fileId}")
-    public String deleteFileById(@PathVariable Integer fileId ,  RedirectAttributes redirectAttrs){
-        System.out.println(fileId);
+    public String deleteFileById(@PathVariable Integer fileId){
         fileService.deleteFileById(fileId);
         return "redirect:/home";
     }

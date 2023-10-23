@@ -16,14 +16,15 @@ import java.util.List;
 public class FileService {
 
       private final FilesMapper filesMapper;
+      private final UserService userService;
 
 
 
-    public boolean isDuplicateFileName(String fileName){return filesMapper.isDuplicateFileName(fileName) == 0;}
+    public boolean isDuplicateFileName(String fileName , Integer userId){return filesMapper.isDuplicateFileName(fileName , userId) == 0;}
 
       public void uploadFile(@RequestParam("fileUpload") MultipartFile file  , Integer currentUserId) throws IOException {
          boolean isFileNotEmpty  = !file.isEmpty();
-         boolean isDuplicateFileName  = isDuplicateFileName(String.valueOf(file.getOriginalFilename()));
+         boolean isDuplicateFileName  = isDuplicateFileName(String.valueOf(file.getOriginalFilename()) , userService.getUserId());
           System.out.println(isDuplicateFileName);
           System.out.println(isFileNotEmpty);
          if (isFileNotEmpty && isDuplicateFileName){

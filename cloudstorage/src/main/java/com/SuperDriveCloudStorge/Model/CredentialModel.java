@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CredentialModel {
 
-    private int credentialed_id;
+    private Integer credentialid;
 
     private String url;
 
@@ -15,7 +15,7 @@ public class CredentialModel {
 
     private String password;
 
-    private String user_id;
+    private Integer userid;
 
 
 }
