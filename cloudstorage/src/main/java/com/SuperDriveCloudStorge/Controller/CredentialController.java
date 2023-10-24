@@ -2,14 +2,10 @@ package com.SuperDriveCloudStorge.Controller;
 
 
 import com.SuperDriveCloudStorge.Model.CredentialModel;
-import com.SuperDriveCloudStorge.Model.NoteModel;
 import com.SuperDriveCloudStorge.Services.CredentialService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,5 +19,12 @@ public class CredentialController {
         credentialService.createCredential(credentialModel);
         return "redirect:/home";
     }
+
+    @GetMapping("delete/{credentialid}")
+    public String deleteCredentials(@PathVariable Integer credentialid){
+        credentialService.deleteCredentialById(credentialid);
+        return "redirect:/home";
+    }
+
 
 }

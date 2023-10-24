@@ -17,6 +17,9 @@ public class CredentialService {
     private final CredentialsMapper credentialsMapper;
 
 
+    public Boolean isCredentialidExist(Integer credentialid , Integer userId){return credentialsMapper.credentialid(credentialid , userId) != 0;}
+
+
     public List<CredentialModel> getUserCredentia(Integer currentUserId){
         return credentialsMapper.getUserCredentialByUserId(currentUserId);
     }
@@ -28,6 +31,10 @@ public class CredentialService {
         credentialModel.setKey(getRandomKey());
         System.out.println(credentialModel);
         credentialsMapper.insert(credentialModel);
+    }
+
+    public void deleteCredentialById(Integer credentialid){
+        credentialsMapper.deleteCredentialById(credentialid);
     }
 
 
