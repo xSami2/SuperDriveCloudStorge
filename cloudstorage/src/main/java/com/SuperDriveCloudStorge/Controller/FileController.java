@@ -4,10 +4,7 @@ import com.SuperDriveCloudStorge.Model.FileModel;
 import com.SuperDriveCloudStorge.Services.FileService;
 import com.SuperDriveCloudStorge.Services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +34,19 @@ public class FileController {
     }
 
     @GetMapping("/view/{fileId}")
-    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId , RedirectAttributes redirectAttrs) {
+    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId, RedirectAttributes redirectAttrs) {
         FileModel file = fileService.getFileById(fileId);
         byte[] fileData = file.getFiledata();
         String contentType = file.getContenttype();
+        String fileName = file.getFilename(); // Assume the FileModel has a getFileName() method
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(contentType));
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename(fileName)
+                .build());
+
         return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
     }
+
 }

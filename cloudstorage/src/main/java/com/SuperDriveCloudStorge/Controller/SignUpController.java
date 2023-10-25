@@ -39,7 +39,8 @@ public class SignUpController {
            model.addAttribute("signupErrorMassage" , "The username the you want to register is already taken");
          }
 
-        return "signup";
+        return "redirect:/login";
+
     }
 
 
