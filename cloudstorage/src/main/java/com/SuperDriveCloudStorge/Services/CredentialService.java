@@ -15,9 +15,10 @@ public class CredentialService {
 
     private final UserService userService;
     private final CredentialsMapper credentialsMapper;
+    private final EncryptionService encryptionService;
 
 
-    public Boolean isCredentialidExist(Integer credentialid , Integer userId){return credentialsMapper.credentialid(credentialid , userId) != 0;}
+    public Boolean isCredentialExist(Integer credentialid , Integer userId){return credentialsMapper.credentialid(credentialid , userId) != 0;}
 
 
     public List<CredentialModel> getUserCredentia(Integer currentUserId){
@@ -27,10 +28,26 @@ public class CredentialService {
 
 
     public void createCredential(CredentialModel credentialModel){
-        credentialModel.setUserid(userService.getUserId());
-        credentialModel.setKey(getRandomKey());
-        System.out.println(credentialModel);
-        credentialsMapper.insert(credentialModel);
+
+        boolean  isCredentialExistInDatabase = isCredentialExist(credentialModel.getCredentialid(),userService.getUserId());
+        System.out.println(isCredentialExistInDatabase);
+        if(isCredentialExistInDatabase){
+            System.out.println(credentialModel);
+            String encryptedPassword = encryptionService.encryptValue(credentialModel.getPassword() , credentialModel.getKey());
+            credentialModel.setEncryptedPassword(encryptedPassword);
+            System.out.println(credentialModel);
+            credentialModel.setUserid(userService.getUserId());
+            System.out.println(credentialModel);
+
+            credentialsMapper.update(credentialModel);
+        } else {
+            credentialModel.setUserid(userService.getUserId());
+            credentialModel.setKey(getRandomKey());
+            String encryptedPassword = encryptionService.encryptValue(credentialModel.getPassword() , credentialModel.getKey());
+            credentialModel.setEncryptedPassword(encryptedPassword);
+            credentialsMapper.insert(credentialModel);
+        }
+
     }
 
     public void deleteCredentialById(Integer credentialid){

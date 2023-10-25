@@ -14,6 +14,7 @@ public class CredentialModel {
     private String key;
 
     private String password;
+    private String encryptedPassword;
 
     private Integer userid;
 

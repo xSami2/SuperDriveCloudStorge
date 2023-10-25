@@ -15,12 +15,15 @@ public interface CredentialsMapper  {
     @Select("SELECT COUNT(*) FROM CREDENTIALS WHERE credentialid = #{credentialid} AND userId = #{userId}")
     int credentialid(Integer credentialid ,  Integer userId);
 
+    @Update("UPDATE CREDENTIALS SET url = #{url}, username = #{username} , key = #{key}  , password = #{password} , encryptedPassword = #{encryptedPassword} WHERE credentialid = #{credentialid} AND userid = #{userid}")
+    void update(CredentialModel credentialModel);
+
     @Delete("DELETE FROM CREDENTIALS Where credentialid = #{credentialid}")
     void deleteCredentialById(Integer credentialid);
 
     @Insert(
-            "INSERT INTO CREDENTIALS (url , username  , key , password , userid)" +
-                    "VALUES (#{url} , #{username} , #{key}  , #{password} , #{userid})"
+            "INSERT INTO CREDENTIALS (url , username  , key , password , encryptedPassword , userid)" +
+                    "VALUES (#{url} , #{username} , #{key}  , #{password} ,#{encryptedPassword}, #{userid})"
     )
     @Options(useGeneratedKeys = true , keyProperty = "credentialid")
     void insert(CredentialModel credentialModel);

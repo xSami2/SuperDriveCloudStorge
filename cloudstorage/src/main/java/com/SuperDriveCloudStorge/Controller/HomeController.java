@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,9 +32,14 @@ public class HomeController {
     @GetMapping
     public String signupView( Model model) {
         Integer currentUserId = userService.getUserId();
-        model.addAttribute("files" ,fileService.getUserFile(currentUserId));
-        model.addAttribute("notes" ,noteService.getUserNote(currentUserId));
-        model.addAttribute("credentials" ,credentialService.getUserCredentia(currentUserId));
+
+        List<CredentialModel> userCredentials =  credentialService.getUserCredentia(currentUserId);
+        List<FileModel> userFiles = fileService.getUserFile(currentUserId);
+        List<NoteModel> userNotes = noteService.getUserNote(currentUserId);
+
+        model.addAttribute("files" ,userFiles);
+        model.addAttribute("notes" ,userNotes);
+        model.addAttribute("credentials" ,userCredentials);
         return "home";
     }
 
