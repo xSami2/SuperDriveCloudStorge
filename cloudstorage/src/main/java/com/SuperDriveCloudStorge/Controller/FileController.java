@@ -34,7 +34,7 @@ public class FileController {
     }
 
     @GetMapping("/view/{fileId}")
-    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId, RedirectAttributes redirectAttrs) {
+    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId) {
         FileModel file = fileService.getFileById(fileId);
         byte[] fileData = file.getFiledata();
         String contentType = file.getContenttype();
