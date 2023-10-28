@@ -47,7 +47,7 @@ class CloudStorageApplicationTests {
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doMockSignUp(String firstName, String lastName, String userName, String password) {
+	private void doMockSignUp(String firstName, String lastName, String userName, String password)  {
 		// Create a dummy account for logging in later.
 		// Visit the sign-up page.
 		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
@@ -81,11 +81,17 @@ class CloudStorageApplicationTests {
 		buttonSignUp.click();
 
 
+
+
 		/* Check that the sign up was successful.
 		// You may have to modify the element "success-msg" and the sign-up
 		// success message below depening on the rest of your code.
 		*/
-		//Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("success-msg")));
+
+		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+
+
 	}
 
 
@@ -134,7 +140,7 @@ class CloudStorageApplicationTests {
 	public void testRedirection() throws InterruptedException {
 		// Create a test account
 		doMockSignUp("Redirection","Test","Sami","214");
-		Thread.sleep(3000);
+		driver.get("http://localhost:" + this.port + "/login");
 		// Check if we have been redirected to the log in page.
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
@@ -159,7 +165,7 @@ class CloudStorageApplicationTests {
 
 		// Try to access a random made-up URL.
 		driver.get("http://localhost:" + this.port + "/some-random-page");
-		Assertions.assertTrue(driver.getPageSource().contains("Whitelabel Error Page"));
+		Assertions.assertTrue(driver.getTitle().contains("404 - Page Not Found"));
 	}
 
 
@@ -212,7 +218,8 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void testSignupLoginLogoutFlow(){
-		signupAndSignIn();
+		doMockSignUp("Sami" , "Sami" , "testSignupLoginLogoutFlow" , "testSignupLoginLogoutFlow");
+		doLogIn("testSignupLoginLogoutFlow" , "testSignupLoginLogoutFlow");
 		driver.get("http://localhost:" + this.port + "/home");
 		Assertions.assertEquals("Home", driver.getTitle());
 		WebElement logoutButton = driver.findElement(By.id("logout-button"));
@@ -223,7 +230,8 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void createNote() throws InterruptedException {
-		signupAndSignIn();
+		doMockSignUp("Sami" , "Sami" , "createNote" , "createNote");
+		doLogIn("createNote" , "createNote");
 
 		clickButton("nav-notes-tab");
 	    Thread.sleep(200);
@@ -238,7 +246,7 @@ class CloudStorageApplicationTests {
 		Thread.sleep(200);
 
 		clickButton("saveNote");
-		Thread.sleep(200);
+		Thread.sleep(400);
 
 		clickButton("nav-notes-tab");
 		Thread.sleep(1000);
@@ -247,7 +255,8 @@ class CloudStorageApplicationTests {
 	@Test
 	public void editNote() throws InterruptedException {
 
-		createNote();
+		doLogIn("createNote" , "createNote");
+		Thread.sleep(400);
 
 		clickButton("nav-notes-tab");
 		Thread.sleep(200);
@@ -265,9 +274,7 @@ class CloudStorageApplicationTests {
 	}
 	@Test
 	public void deleteNote() throws InterruptedException {
-
-		createNote();
-
+		doLogIn("createNote" , "createNote");
 		clickButton("nav-notes-tab");
 		Thread.sleep(200);
 
@@ -280,8 +287,7 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void createCredential() throws InterruptedException {
-		signupAndSignIn();
-
+		doLogIn("createCredential" , "createCredential");
 		clickButton("nav-credentials-tab");
 		Thread.sleep(200);
 
@@ -294,13 +300,26 @@ class CloudStorageApplicationTests {
 		clickButton("saveCredentialButton");
 		Thread.sleep(200);
 		clickButton("nav-credentials-tab");
+		Thread.sleep(200);
 
 
 	}
+
+
 	@Test
+	public void deleteCredential() throws InterruptedException {
+		doLogIn("createCredential" , "createCredential");
+		clickButton("nav-credentials-tab");
+		Thread.sleep(400);
+		clickButton("deleteCredentialButton");
+	}
+    @Test
 	public void editCredential() throws InterruptedException {
+		doMockSignUp("createCredential" , "createCredential" , "createCredential" , "createCredential");
+		doLogIn("createCredential" , "createCredential");
+		clickButton("nav-credentials-tab");
 		createCredential();
-		Thread.sleep(200);
+		Thread.sleep(600);
 
 		clickButton("editCredentialButton");
 		Thread.sleep(200);
@@ -315,18 +334,8 @@ class CloudStorageApplicationTests {
 		Thread.sleep(1000);
 
 	}
-	@Test
-	public void deleteCredential() throws InterruptedException {
-		createCredential();
-		Thread.sleep(200);
 
-		clickButton("deleteCredentialButton");
-	}
 
-   public void signupAndSignIn(){
-	   doMockSignUp("Sami" , "Sami" , "Sami" , "Sami");
-	   doLogIn("Sami" , "Sami");
-   }
 
    public void fillInputText(String id , String content){
 	   WebElement Element = driver.findElement(By.id(id));

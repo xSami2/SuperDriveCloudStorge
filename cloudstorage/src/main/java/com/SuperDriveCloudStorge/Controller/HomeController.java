@@ -30,7 +30,7 @@ public class HomeController {
 
 
     @GetMapping
-    public String signupView( Model model) {
+    public String signupView(Model model) {
         Integer currentUserId = userService.getUserId();
 
         List<CredentialModel> userCredentials =  credentialService.getUserCredentia(currentUserId);
@@ -40,6 +40,7 @@ public class HomeController {
         model.addAttribute("files" ,userFiles);
         model.addAttribute("notes" ,userNotes);
         model.addAttribute("credentials" ,userCredentials);
+
         return "home";
     }
 

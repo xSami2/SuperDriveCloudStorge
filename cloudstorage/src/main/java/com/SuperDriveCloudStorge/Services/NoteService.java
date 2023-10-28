@@ -22,20 +22,17 @@ public class NoteService {
 
     public Boolean isNoteExist(Integer noteid , Integer userId){return notesMapper.isNoteExist(noteid , userId) != 0;}
 
-    public void createNote(NoteModel noteModel)  {
+    public Boolean createNote(NoteModel noteModel)  {
         Integer noteid = noteModel.getNoteid();
         Integer currentUserId = userService.getUserId();
-        noteModel.setUserid( currentUserId);
-        System.out.println("Note ID : " + noteid);
-        System.out.println("CurrentUserId : "+currentUserId);
-        System.out.println("isNoteExist? : "+ isNoteExist(noteid , currentUserId));
-        System.out.println(noteModel.toString());
+        noteModel.setUserid(currentUserId);
         boolean isNoteExistInDatabase =  isNoteExist(noteid , currentUserId);
         if(isNoteExistInDatabase){
             notesMapper.update(noteModel);
-        } else if (!isNoteExistInDatabase) {
-            notesMapper.insert(noteModel);
+            return false;
         }
+            notesMapper.insert(noteModel);
+            return true;
 
     }
 

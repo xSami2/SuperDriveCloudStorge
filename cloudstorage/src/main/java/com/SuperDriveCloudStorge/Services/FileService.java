@@ -22,17 +22,16 @@ public class FileService {
 
     public boolean isDuplicateFileName(String fileName , Integer userId){return filesMapper.isDuplicateFileName(fileName , userId) == 0;}
 
-      public void uploadFile(@RequestParam("fileUpload") MultipartFile file  , Integer currentUserId) throws IOException {
+      public Boolean uploadFile(@RequestParam("fileUpload") MultipartFile file  , Integer currentUserId) throws IOException {
          boolean isFileNotEmpty  = !file.isEmpty();
          boolean isDuplicateFileName  = isDuplicateFileName(String.valueOf(file.getOriginalFilename()) , userService.getUserId());
-          System.out.println(isDuplicateFileName);
-          System.out.println(isFileNotEmpty);
          if (isFileNotEmpty && isDuplicateFileName){
              FileModel newFile = new FileModel(null , file.getOriginalFilename() , file.getContentType() , file.getSize() , currentUserId , file.getBytes() );
              filesMapper.insert(newFile);
+             return true;
          }
 
-
+       return false;
 
     }
 

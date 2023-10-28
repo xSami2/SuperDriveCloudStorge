@@ -27,26 +27,22 @@ public class CredentialService {
 
 
 
-    public void createCredential(CredentialModel credentialModel){
+    public Boolean createCredential(CredentialModel credentialModel){
 
         boolean  isCredentialExistInDatabase = isCredentialExist(credentialModel.getCredentialid(),userService.getUserId());
-        System.out.println(isCredentialExistInDatabase);
         if(isCredentialExistInDatabase){
-            System.out.println(credentialModel);
             String encryptedPassword = encryptionService.encryptValue(credentialModel.getPassword() , credentialModel.getKey());
             credentialModel.setEncryptedPassword(encryptedPassword);
-            System.out.println(credentialModel);
             credentialModel.setUserid(userService.getUserId());
-            System.out.println(credentialModel);
-
             credentialsMapper.update(credentialModel);
-        } else {
+            return false;
+        }
             credentialModel.setUserid(userService.getUserId());
             credentialModel.setKey(getRandomKey());
             String encryptedPassword = encryptionService.encryptValue(credentialModel.getPassword() , credentialModel.getKey());
             credentialModel.setEncryptedPassword(encryptedPassword);
             credentialsMapper.insert(credentialModel);
-        }
+            return true;
 
     }
 

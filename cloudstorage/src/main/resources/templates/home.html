@@ -40,6 +40,7 @@
                                 </div>
                             </div>
                         </form>
+
                         <div class="table-responsive">
                             <table class="table table-striped" id="fileTable">
                                 <thead>
@@ -49,6 +50,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <div th:if="${showAlertMassageFile}" class="alert alert-danger">
+                                    <p th:text="${alertMassageFile}"></p>
+                                </div>
                                 <tr th:each="file : ${files}">
                                     <td>
                                         <a  th:href="'/file/view/'+${file.fileId}" target="_blank" class="btn btn-success">View</a>
@@ -75,6 +79,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <div th:if="${showAlertMassageNote}" class="alert alert-danger">
+                                    <p th:text="${alertMassageNote}"></p>
+                                </div>
                                 <tr th:each="note : ${notes}">
                                     <td>
                                         <button
@@ -128,6 +135,9 @@
                         </button>
 
                         <div class="table-responsive">
+                            <div th:if="${showAlertMassageCredential}" class="alert alert-danger">
+                                <p th:text="${alertMassageCredential}"></p>
+                            </div>
                             <table class="table table-striped"  id="credentialTable">
                                 <thead>
                                     <tr>

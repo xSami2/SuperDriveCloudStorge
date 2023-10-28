@@ -22,19 +22,28 @@ public class FileController {
     private final UserService userService;
 
     @PostMapping()
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file) throws IOException {
-        fileService.uploadFile(file , userService.getUserId());
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile file , RedirectAttributes redirectAttributes) throws IOException {
+        boolean isFileUploaded = fileService.uploadFile(file , userService.getUserId());
+        redirectAttributes.addFlashAttribute("showAlertMassageFile" , true);
+        if(isFileUploaded){
+            redirectAttributes.addFlashAttribute("alertMassageFile" , " File Was Uploaded Successfully");
+        } else{
+            redirectAttributes.addFlashAttribute("alertMassageFile" , " A file with the Same name has been uploaded Already");
+        }
+
         return "redirect:/home";
     }
 
     @GetMapping("/delete/{fileId}")
-    public String deleteFileById(@PathVariable Integer fileId){
+    public String deleteFileById(@PathVariable Integer fileId , RedirectAttributes redirectAttributes){
         fileService.deleteFileById(fileId);
+        redirectAttributes.addFlashAttribute("showAlertMassageFile" , true);
+        redirectAttributes.addFlashAttribute("alertMassageFile" , " File Was Deleted Successfully");
         return "redirect:/home";
     }
 
     @GetMapping("/view/{fileId}")
-    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId) {
+    public ResponseEntity<byte[]> viewFile(@PathVariable Integer fileId , RedirectAttributes redirectAttributes) {
         FileModel file = fileService.getFileById(fileId);
         byte[] fileData = file.getFiledata();
         String contentType = file.getContenttype();
@@ -46,7 +55,9 @@ public class FileController {
                 .filename(fileName)
                 .build());
 
+
         return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
     }
+
 
 }

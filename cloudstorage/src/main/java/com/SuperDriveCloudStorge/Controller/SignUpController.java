@@ -36,10 +36,10 @@ public class SignUpController {
              model.addAttribute("signupSuccess" , true);
          }else{
            model.addAttribute("signupError" , true);
-           model.addAttribute("signupErrorMassage" , "The username the you want to register is already taken");
+           model.addAttribute("signupErrorMassage" , "Username not available");
          }
 
-        return "redirect:/login";
+        return "signup";
 
     }
 
